@@ -129,7 +129,7 @@ public class ViewFactura extends ViewMain {
 
     private static void informeDian() {
         System.out.println("Generar Archivo DIAN del Año: ");
-        int year = 2023;
+        int year = leer.nextInt();
         for (Factura factura : serviceFactura.listarporAnino(year)){
             serviceImpuesto.crear(new Impuesto(factura));
         }
