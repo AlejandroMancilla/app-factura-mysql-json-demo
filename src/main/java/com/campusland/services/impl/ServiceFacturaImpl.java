@@ -1,5 +1,7 @@
 package com.campusland.services.impl;
 
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.campusland.exceptiones.facturaexceptions.FacturaExceptionInsertDataBase;
@@ -48,6 +50,34 @@ public class ServiceFacturaImpl implements ServiceFactura {
           eJson.printStackTrace();
       }
   }
+
+    @Override
+    public void listarClientesPorCompras() {
+        this.repositoryFacturaMysql.listarClientesPorCompras();
+    }
+
+    public void listarProductosPorVentas() {
+        this.repositoryFacturaMysql.listarProductosPorVentas();
+    }
+
+    @Override
+    public void informeVentas() {
+        this.repositoryFacturaMysql.informeVentas();
+    }
+
+    @Override
+    public double obtenerImpuesto(int year) {
+        return this.repositoryFacturaMysql.obtenerImpuesto(year);
+    }
+
+    @Override
+    public List<Factura> listarporAnino(int year) {
+        List<Factura> facturas = new ArrayList<>();
+        for (Factura factura : listar()){
+            if(factura.getFecha().getYear() == year) facturas.add(factura);
+        }
+        return facturas;
+    }
   
 
 }

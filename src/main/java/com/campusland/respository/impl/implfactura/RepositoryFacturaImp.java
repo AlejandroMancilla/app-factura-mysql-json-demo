@@ -22,4 +22,29 @@ public class RepositoryFacturaImp implements RepositoryFactura {
         
     }
 
+    @Override
+    public void listarClientesPorCompras() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'listarClientesPorCompras'");
+    }
+
+    @Override
+    public void listarProductosPorVentas() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'listarProductosPorVentas'");
+    }
+
+    @Override
+    public void informeVentas() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'informeVentas'");
+    }
+
+    @Override
+    public double obtenerImpuesto(int year) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getImpuesto'");
+    }
+
+
 }

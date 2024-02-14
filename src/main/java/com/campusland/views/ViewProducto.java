@@ -10,7 +10,7 @@ public class ViewProducto extends ViewMain {
         int op = 0;
 
         do {
-
+            clear();
             op = mostrarMenu();
             switch (op) {
                 case 1:

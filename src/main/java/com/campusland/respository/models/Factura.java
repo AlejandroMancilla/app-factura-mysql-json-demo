@@ -18,18 +18,20 @@ public class Factura {
     private Cliente cliente;
     private List<ItemFactura> items;
     private static int nextNumeroFactura;
+    private double descuento;
+    private double impuesto;
 
     public Factura(){
 
     }
 
-  
-
-    public Factura(int numeroFactura, LocalDateTime fecha, Cliente cliente) {
+    public Factura(int numeroFactura, LocalDateTime fecha, Cliente cliente, double descuento, double impuesto) {
         this.numeroFactura = numeroFactura;
         this.fecha = fecha;
         this.cliente = cliente;
         this.items = new ArrayList<>();
+        this.descuento = descuento;
+        this.impuesto = impuesto;
     }
 
     public Factura(LocalDateTime fecha, Cliente cliente) {
@@ -41,10 +43,31 @@ public class Factura {
 
     public double getTotalFactura() {
         double totalFactura = 0;
+
         for (ItemFactura item : items) {
             totalFactura += item.getImporte();
         }
         return totalFactura;
+    }
+
+    public double restarDescuento() {
+        return getTotalFactura() - this.descuento; 
+    }
+
+    public void calcularImpuesto(double impuesto) {
+        this.impuesto = restarDescuento() * impuesto * 0.01;
+    }
+
+    public double totalPagar() {
+        return restarDescuento() + this.impuesto;
+    }
+
+    public void calcularDescuentoTotal(List<Descuento> list) {
+        double totalDescuento = 0;
+        for (Descuento des : list) {
+            totalDescuento += des.getDesc();
+        }
+        this.descuento = totalDescuento;
     }
 
     public void agregarItem(ItemFactura item){
@@ -67,4 +90,28 @@ public class Factura {
         System.out.println();
     }
 
+    public void displayFinal(List<Descuento> list) {
+        System.out.println("Factura: " + this.numeroFactura);
+        System.out.println("Cliente: " + this.cliente.getFullName());
+        System.out.println("Fecha: " + Formato.formatoFechaHora(this.getFecha()));
+        System.out.println();
+        System.out.println("----------------------- DETALLE FACTURA ---------------------------");
+        for (ItemFactura item : this.items) {
+            System.out.printf("|%20s|%13s|%12s|%18s|%n", item.getProducto().getNombre(), Formato.formatoMonedaPesos(item.getProducto().getPrecioVenta()), item.getCantidad(), Formato.formatoMonedaPesos(item.getImporte()));
+        }
+        System.out.println("+" + "-".repeat(66) + "+");
+        System.out.printf("|%50s|%15s|%n", "Total  ", Formato.formatoMonedaPesos(this.getTotalFactura()));
+        double descTotal = 0;
+        for (Descuento dsto : list) {
+            if(dsto.getDesc() > 0) System.out.printf("|%50s|%15s|%n", dsto.getCondicion(), Formato.formatoMonedaPesos(dsto.getDesc()));
+            descTotal += dsto.getDesc();
+        }
+        System.out.println("+" + "-".repeat(66) + "+");
+        System.out.printf("|%47s|%18s|%n", "DescuentoTotal  ", descTotal);
+        System.out.printf("|%47s|%18s|%n", "Impuesto  " , Formato.formatoMonedaPesos(this.getImpuesto()));
+        System.out.printf("|%47s|%18s|%n", "Total con Descuento  " , Formato.formatoMonedaPesos(totalPagar()));
+
+        System.out.println();
+
+    }
 }
